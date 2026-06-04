@@ -11,5 +11,4 @@ jobs:
     uses: ./.github/workflows/ci-shared.yaml
     with:
       node-version: "20"
-    secrets:
-      STAGING_API_KEY: ${{ secrets.STAGING_API_KEY }}
+    secrets: inherit
