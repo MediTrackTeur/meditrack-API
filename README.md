@@ -115,3 +115,22 @@ Le scope environment est important ici : ces secrets ne sont accessibles qu'aux 
 Un workflow de feature branch ne peut pas y accéder par erreur.
 
 J'ai vérifié le masquage en faisant un `echo` du secret dans les logs — GitHub l'a bien remplacé par `***`, ce qui confirme que la valeur ne fuite pas dans les logs CI.
+
+## Rendu TP - Partie 4
+
+### Déploiement frontend — GitHub Pages
+
+J'ai créé `.github/workflows/deploy-pages.yml` qui se déclenche uniquement sur `main`. Il build Angular en production avec `--base-href /meditrack-FRONT/` — sans ça la page est blanche car Angular génère  des chemins absolus depuis `/` alors que GitHub Pages sert l'app depuis `/meditrack-FRONT/`.
+
+Le workflow utilise `actions/upload-pages-artifact@v3` et `actions/deploy-pages@v4`. Les permissions `pages: write` et `id-token: write` sont obligatoires pour que le workflow puisse publier sur Pages.
+
+### Déploiement backend — Render
+
+J'ai créé `.github/workflows/deploy-render.yml` qui appelle l'API Render via curl pour déclencher un redéploiement à chaque push sur `main`. 
+Le secret `RENDER_API_KEY` est scopé au repo et masqué dans les logs.
+
+Le service répond sur `https://meditrack-api-9j8h.onrender.com/health`.
+
+### Automatisation Project
+
+J'ai activé l'automatisation native "Pull request merged → Done" dans le Project. Quand une PR est mergée sur main, l'issue liée passe automatiquement en Done sans intervention manuelle.
