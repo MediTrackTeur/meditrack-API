@@ -71,7 +71,6 @@ Le dossier `.github/workflows/` est vide (un simple `.gitkeep`). **Les workflows
 
 # Rendu TP - Partie 1
 
-
 ## Contexte
 
 Dans le cadre du TP final J4 sur la CI/CD avec GitHub, j'ai mis en place une pipeline d'intégration continue sur ce repo. 

@@ -1,0 +1,45 @@
+name: CI Shared
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        description: "Version de Node.js à utiliser"
+        required: true
+        type: string
+      working-directory:
+        description: "Répertoire de travail"
+        required: false
+        type: string
+        default: "."
+    secrets:
+      STAGING_API_KEY:
+        required: false
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    environment: staging
+
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ inputs.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+        env:
+          STAGING_API_KEY: ${{ secrets.STAGING_API_KEY }}
