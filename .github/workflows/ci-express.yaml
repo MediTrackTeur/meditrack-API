@@ -8,7 +8,7 @@ on:
 
 jobs:
   ci-express:
-    uses: ./.github/workflows/ci-shared.yml
+    uses: ./.github/workflows/ci-shared.yaml
     with:
       node-version: "20"
     secrets:
