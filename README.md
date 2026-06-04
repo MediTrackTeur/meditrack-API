@@ -134,3 +134,26 @@ Le service répond sur `https://meditrack-api-9j8h.onrender.com/health`.
 ### Automatisation Project
 
 J'ai activé l'automatisation native "Pull request merged → Done" dans le Project. Quand une PR est mergée sur main, l'issue liée passe automatiquement en Done sans intervention manuelle.
+
+## Rendu TP - PArtie 5
+## Ce que j'ai mis en place (Palier 5)
+
+### Dependabot
+
+J'ai créé `.github/dependabot.yml` dans les deux repos avec deux ecosystems : `npm` pour les dépendances Node et `github-actions` pour les actions utilisées dans les workflows. La fréquence est `weekly` — Dependabot ouvrira automatiquement des PRs chaque semaine si une nouvelle version est disponible.
+
+### Pin SHA
+
+J'ai remplacé tous les tags mobiles `@v4` par des SHA complets dans tous les workflows. Le SHA garantit que le code exécuté est exactement celui que j'ai vérifié.
+
+J'ai conservé le commentaire `# v4` à côté de chaque SHA pour pouvoir identifier la version sans avoir à rechercher le SHA.
+
+### Branch protection
+
+J'ai activé une ruleset sur `main` dans les deux repos avec :
+- PR obligatoire avant tout merge
+- 1 approbation requise
+- Status checks bloquants (CI doit être verte)
+- Force push bloqué
+
+Sans les status checks dans la règle, la protection est cosmétique — on pourrait merger une PR avec une CI rouge. Les status checks bloquants sont la partie critique de la protection.
