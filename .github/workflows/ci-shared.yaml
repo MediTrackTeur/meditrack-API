@@ -40,8 +40,6 @@ jobs:
         run: npm ci
 
       - name: Run tests
-        run: |
-          echo "API Key is: $STAGING_API_KEY"
-          npm test
+        run: npm test
         env:
           STAGING_API_KEY: ${{ secrets.STAGING_API_KEY }}

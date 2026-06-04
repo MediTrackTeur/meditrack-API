@@ -94,3 +94,24 @@ J'ai activé l'automatisation native "auto-add" pour que les nouvelles issues so
 ### Workflow CI Express
 
 J'ai créé `.github/workflows/ci-express.yml` qui se déclenche sur chaque push et pull request sur toutes les branches.
+
+## Rendu TP - Partie 3
+
+### Workflow réutilisable
+
+J'ai extrait la logique commune (checkout + setup-node + npm ci + npm test) dans `.github/workflows/ci-shared.yaml`. Ce fichier s'appelle avec
+`on: workflow_call` — il ne se déclenche jamais seul, uniquement quand un autre workflow l'appelle avec `uses:`.
+
+L'intérêt est de ne pas dupliquer les steps entre ci-express et ci-angular.
+Si je dois changer la version de Node ou ajouter un step de lint, je le fais en un seul endroit.
+
+Le workflow accepte un input `node-version` pour rester flexible, et utilise `secrets: inherit` côté appelant pour transmettre les secrets sans les lister explicitement.
+
+### Environment staging
+
+J'ai créé un environment `staging` dans Settings > Environments avec deux secrets scopés : `STAGING_DATABASE_URL` et `STAGING_API_KEY`.
+
+Le scope environment est important ici : ces secrets ne sont accessibles qu'aux workflows qui ciblent explicitement l'environment `staging`. 
+Un workflow de feature branch ne peut pas y accéder par erreur.
+
+J'ai vérifié le masquage en faisant un `echo` du secret dans les logs — GitHub l'a bien remplacé par `***`, ce qui confirme que la valeur ne fuite pas dans les logs CI.
