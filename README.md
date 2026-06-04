@@ -66,3 +66,32 @@ Un middleware `requireAuth` (Bearer token) est fourni dans `src/middleware/auth.
 ## Workflows GitHub Actions
 
 Le dossier `.github/workflows/` est vide (un simple `.gitkeep`). **Les workflows GitHub Actions sont a creer par l'apprenant** dans `.github/workflows/`.
+
+---
+
+# Rendu TP - Partie 1
+
+
+## Contexte
+
+Dans le cadre du TP final J4 sur la CI/CD avec GitHub, j'ai mis en place une pipeline d'intégration continue sur ce repo. 
+L'objectif est de m'assurer que chaque modification du code ne casse pas les tests existants.
+
+### GitHub Project
+
+J'ai créé un Project GitHub au niveau de l'organisation pour pouvoir regrouper les issues des deux repos (api et front) dans un seul endroit.
+
+J'ai ajouté 3 champs custom :
+- **Priorité** (Single select) : P0 à P3 pour trier ce qui bloque de ce qui peut attendre
+- **Estimation** (Number) : points de complexité pour estimer la charge
+- **Sprint** (Iteration) : pour répartir le travail sur 2 semaines
+
+J'ai créé 2 vues :
+- **Backlog OP** (Table) : toutes les issues triées par priorité, utile pour avoir une vision globale du backlog
+- **Daily Dev** (Board) : colonnes Backlog / Ready / In Progress / In Review / Done, utile pour le suivi quotidien
+
+J'ai activé l'automatisation native "auto-add" pour que les nouvelles issues soient automatiquement ajoutées au Project.
+
+### Workflow CI Express
+
+J'ai créé `.github/workflows/ci-express.yml` qui se déclenche sur chaque push et pull request sur toutes les branches.
